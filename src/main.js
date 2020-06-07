@@ -5,6 +5,7 @@ import {createSortTemplate} from "./components/sort";
 import {createButtonShowMoreTemplate} from "./components/button";
 import {createUserProfileTemplate} from "./components/profile";
 import {createFilmsExtraContainer} from "./components/extra";
+import {generateCards} from "./mock/card";
 
 // функция для отрисовки компонент
 const render = (container, template, place) => {
@@ -49,3 +50,5 @@ const filmsListContainerExtra = document.querySelectorAll(`.films-list__containe
 
 Array.from(filmsListContainerExtra).slice(1).forEach((element) => renderFilmCard(element, 2));
 
+const arr = generateCards(15);
+console.log(arr);
