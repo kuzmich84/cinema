@@ -38,6 +38,7 @@ function renderFilmCard(container, count) {
     render(container, createFilmCardTemplate(), `beforeend`);
   }
 }
+
 render(filmsList, createButtonShowMoreTemplate(), `beforeend`);
 
 const films = document.querySelector(`.films`);
@@ -50,5 +51,9 @@ const filmsListContainerExtra = document.querySelectorAll(`.films-list__containe
 
 Array.from(filmsListContainerExtra).slice(1).forEach((element) => renderFilmCard(element, 2));
 
-const arr = generateCards(15);
+const arr = generateCards(15).map((item, index) => {
+  item.id = index;
+  return item;
+});
+
 console.log(arr);

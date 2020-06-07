@@ -15,3 +15,11 @@ export const createDescription = (description) => {
   }
   return string;
 };
+
+export const getRandomEventTime = (yearStart, yearEnd) => {
+  const date = new Date();
+  date.setFullYear(getRandomInRange(2000, 2019), getRandomInRange(0, 11), getRandomInRange(1, 31));
+  date.setHours(getRandomInRange(0, 23), getRandomInRange(0, 59));
+
+  return date;
+};

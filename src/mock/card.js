@@ -1,4 +1,4 @@
-import {createDescription, getRandomArrayItem, getRandomInRange, getRandomFloatInRange} from "../utils/common";
+import {createDescription, getRandomArrayItem, getRandomInRange, getRandomFloatInRange, getRandomEventTime} from "../utils/common";
 
 
 const FILMS_NAMES = [`Интердевочка`, `Берегись автомобиля`, `Друзья`, `Трансформеры`, `Такси`,
@@ -90,40 +90,70 @@ const AgeCertificats = [
   `18+`,
 ];
 
-function generateCard() {
-  return {
-    title: getRandomArrayItem(FILMS_NAMES),
-    poster: getRandomArrayItem(POSTERS),
-    description: createDescription(DESCRIPTION),
-    year: getRandomInRange(1900, 2020),
-    duration: {
-      hours: getRandomInRange(0, 5),
-      minutes: getRandomInRange(0, 59)
-    },
-    rating: (Math.random() * 10).toFixed(1),
-    genre: getRandomArrayItem(GENRE),
-    comments: getRandomInRange(0, 1000),
-    directors: getRandomArrayItem(NameOfDirectors),
+const WATCHLIST = [true, false];
 
-
-  };
-}
-
-const generateCards = (count) => {
-  const arr = [];
-  const flags = new Set();
+const getRandomArray = (arr, count) => {
+  const set = new Set();
   for (let i = 0; i < count; i++) {
-    let generateC = generateCard();
-    if (flags.has(generateC.title)) {
-      i--;
-    } else {
-      arr.push(generateC);
-      flags.add(generateC.title);
-    }
+    set.add(getRandomArrayItem(arr));
   }
-  return arr;
+  return Array.from(set);
 };
 
 
-export {generateCard, generateCards};
+function generateCard() {
+  return {
+    id: ``,
+    comments: getRandomInRange(0, 1000),
+    filmInfo: {
+      title: getRandomArrayItem(FILMS_NAMES),
+      rating: (Math.random() * 10).toFixed(1),
+      poster: getRandomArrayItem(POSTERS),
+      director: getRandomArrayItem(NameOfDirectors),
+      writers: getRandomArray(NameOfWriters, getRandomInRange(1, 5)),
+      actors: getRandomArray(NameOfActors, getRandomInRange(1, 5)),
+      release: {
+        date: Date.parse(getRandomEventTime(1910, 2020)),
+        releaseCountry: getRandomArrayItem(Country),
+      },
+      runtime: {
+        hours: getRandomInRange(0, 5),
+        minutes: getRandomInRange(0, 59)
+      },
+      genre: getRandomArrayItem(GENRE),
+      description: createDescription(DESCRIPTION),
+    },
+    userDetails: {
+      personalRating: getRandomInRange(0, 50),
+      watchlist: getRandomArrayItem(WATCHLIST),
+      alreadyWatched: getRandomArrayItem(WATCHLIST),
+      watchingDate: getRandomEventTime(2010, 2020),
+      favorite: getRandomArrayItem(WATCHLIST),
+    }
+  };
+}
+
+// const generateCards = (count) => {
+//   const arr = [];
+//   const flags = new Set();
+//   for (let i = 0; i < count; i++) {
+//     let cardItem = generateCard();
+//     if (flags.has(cardItem.title)) {
+//       i--;
+//     } else {
+//       arr.push(cardItem);
+//       flags.add(cardItem.title);
+//     }
+//   }
+//   return arr;
+// };
+//
+const generateCards = (count) => {
+  let arr = [];
+  for (let i = 0; i < count; i++) {
+    arr.push(generateCard());
+  }
+  return arr;
+};
+export {generateCards};
 
