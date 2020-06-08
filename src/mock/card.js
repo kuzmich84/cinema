@@ -8,7 +8,7 @@ const FILMS_NAMES = [`Интердевочка`, `Берегись автомо�
 const POSTERS = [`made-for-each-other.png`, `popeye-meets-sinbad.png`, `sagebrush-trail.jpg`, `santa-claus-conquers-the-martians.jpg`,
   `the-dance-of-life.jpg`, `the-great-flamarion.jpg`, `the-man-with-the-golden-arm.jpg`];
 
-const DESCRIPTION = [
+export const DESCRIPTION = [
   `Lorem ipsum dolor sit amet, consectetur adipiscing elit.`,
   `Cras aliquet varius magna, non porta ligula feugiat eget.`,
   `Fusce tristique felis at fermentum pharetra.`,
@@ -83,7 +83,7 @@ const Country = [
   `Germany`,
 ];
 
-const AgeCertificats = [
+const AgeDeclaimer = [
   `12+`,
   `14+`,
   `16+`,
@@ -107,6 +107,7 @@ function generateCard() {
     comments: getRandomInRange(0, 1000),
     filmInfo: {
       title: getRandomArrayItem(FILMS_NAMES),
+      alternativeTitle: getRandomArrayItem(FILMS_NAMES),
       rating: (Math.random() * 10).toFixed(1),
       poster: getRandomArrayItem(POSTERS),
       director: getRandomArrayItem(NameOfDirectors),
@@ -116,12 +117,10 @@ function generateCard() {
         date: Date.parse(getRandomEventTime(1910, 2020)),
         releaseCountry: getRandomArrayItem(Country),
       },
-      runtime: {
-        hours: getRandomInRange(0, 5),
-        minutes: getRandomInRange(0, 59)
-      },
-      genre: getRandomArrayItem(GENRE),
-      description: createDescription(DESCRIPTION),
+      runtime: getRandomInRange(1, 300),
+      genre: getRandomArray(GENRE, getRandomInRange(1, 3)),
+      description: createDescription(DESCRIPTION, getRandomInRange(1, 3)),
+      ageDeclaimer: getRandomArrayItem(AgeDeclaimer)
     },
     userDetails: {
       personalRating: getRandomInRange(0, 50),
@@ -148,12 +147,19 @@ function generateCard() {
 //   return arr;
 // };
 //
+// const generateCards = (count) => {
+//   let arr = [];
+//   for (let i = 0; i < count; i++) {
+//     arr.push(generateCard());
+//   }
+//   return arr;
+// };
+
 const generateCards = (count) => {
-  let arr = [];
-  for (let i = 0; i < count; i++) {
-    arr.push(generateCard());
-  }
-  return arr;
+  return new Array(count)
+    .fill(``)
+    .map(generateCard);
 };
-export {generateCards};
+
+export {generateCards, generateCard};
 

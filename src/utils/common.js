@@ -8,9 +8,9 @@ export const getRandomArrayItem = (array) => {
   return array[randomIndex];
 };
 
-export const createDescription = (description) => {
+export const createDescription = (description, count) => {
   let string = ``;
-  for (let i = 0; i < 3; i++) {
+  for (let i = 0; i < count; i++) {
     string += getRandomArrayItem(description) + ` `;
   }
   return string;
@@ -22,4 +22,14 @@ export const getRandomEventTime = (yearStart, yearEnd) => {
   date.setHours(getRandomInRange(0, 23), getRandomInRange(0, 59));
 
   return date;
+};
+
+export const getTime = (time) => {
+  if (time < 60) {
+    return `${time} m`;
+  } else {
+    let minutes = time % 60;
+    let hours = (time - minutes) / 60;
+    return `${hours} h ${minutes} m`;
+  }
 };
