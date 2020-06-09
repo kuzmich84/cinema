@@ -90,7 +90,7 @@ const showDetails = (collection) => {
         if (isEscKey) {
           detailsFilmComponent.getElement().remove();
           detailsFilmComponent.removeElement();
-          document.removeEventListener(`keydown`, onEscKeyDown);
+          window.removeEventListener(`keydown`, onEscKeyDown);
         }
       };
 
