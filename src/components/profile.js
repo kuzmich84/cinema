@@ -1,4 +1,4 @@
-import {createElement} from "../utils/common";
+import AbstractComponent from "./abstract-component";
 
 const createUserProfileTemplate = (cards) => {
   const {totalWatched} = cards;
@@ -19,25 +19,13 @@ const createUserProfileTemplate = (cards) => {
   </section>`);
 };
 
-export default class UserProfile {
+export default class UserProfile extends AbstractComponent {
   constructor(cards) {
-    this._element = null;
+    super();
     this._cards = cards;
   }
 
   getTemplate() {
     return createUserProfileTemplate(this._cards);
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }

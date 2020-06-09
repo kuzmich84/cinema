@@ -169,15 +169,17 @@ render(footer, new FooterStatisticComponent(cards).getElement(), RenderPosition.
 
 const stat = document.querySelector(`.main-navigation__item--additional`);
 
-
-stat.addEventListener(`click`, (evt) => {
+const showStat = (evt) => {
   evt.preventDefault();
   filmContainerComponent.getElement().remove();
   filmContainerComponent.removeElement();
   sortComponent.removeElement();
   render(siteMainElement, new StatisticComponent(statisticData(cards)).getElement(), RenderPosition.BEFOREEND);
-}
-);
+  stat.removeEventListener(`click`, showStat);
+};
+
+stat.addEventListener(`click`, showStat);
+
 
 
 console.log(statisticData(cards));

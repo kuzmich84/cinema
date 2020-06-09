@@ -1,5 +1,6 @@
 import {generateComments} from "../mock/comments";
-import {createElement, getRandomInRange} from "../utils/common";
+import {getRandomInRange} from "../utils/common";
+import AbstractComponent from "./abstract-component";
 
 const count = getRandomInRange(0, 5);
 const comments = generateComments(count);
@@ -40,8 +41,8 @@ const createCommentTemplate = (comm) => {
           </li>`);
 };
 
-const createElementComments = (comments) => {
-  const commentsMarkup = comments.map((it, i) => createCommentTemplate(it, i === 0)).join(`\n`);
+const createElementComments = (comment) => {
+  const commentsMarkup = comment.map((it, i) => createCommentTemplate(it, i === 0)).join(`\n`);
 
   return (
     `<ul class="film-details__comments-list">
@@ -184,26 +185,14 @@ const createFilmDetailsTemplate = (card) => {
   );
 };
 
-export default class DetailsPopUp {
+export default class DetailsPopUp extends AbstractComponent {
   constructor(card) {
-    this._element = null;
+    super();
     this._card = card;
 
   }
 
   getTemplate() {
     return createFilmDetailsTemplate(this._card);
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }

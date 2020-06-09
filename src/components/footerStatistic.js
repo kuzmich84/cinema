@@ -1,4 +1,4 @@
-import {createElement} from "../utils/common";
+import AbstractComponent from "./abstract-component";
 
 const createFooterStatisticTemplate = (cards) => {
 
@@ -7,25 +7,13 @@ const createFooterStatisticTemplate = (cards) => {
   </section>`);
 };
 
-export default class FooterStatistic {
+export default class FooterStatistic extends AbstractComponent {
   constructor(cards) {
-    this._element = null;
+    super();
     this._cards = cards;
   }
 
   getTemplate() {
     return createFooterStatisticTemplate(this._cards);
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }
