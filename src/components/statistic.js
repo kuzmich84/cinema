@@ -1,6 +1,6 @@
-import {getTime} from "../utils/common";
+import {createElement, getTime} from "../utils/common";
 
-export const createStatisticTemplate = (cards) => {
+const createStatisticTemplate = (cards) => {
 
   const {totalWatched, totalWatchedTime} = cards;
 
@@ -65,3 +65,26 @@ export const createStatisticTemplate = (cards) => {
 
   </section>`);
 };
+
+export default class Statistic {
+  constructor(cards) {
+    this._element = null;
+    this._cards = cards;
+  }
+
+  getTemplate() {
+    return createStatisticTemplate(this._cards);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}

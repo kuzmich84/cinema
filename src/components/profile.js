@@ -1,4 +1,6 @@
-export const createUserProfileTemplate = (cards) => {
+import {createElement} from "../utils/common";
+
+const createUserProfileTemplate = (cards) => {
   const {totalWatched} = cards;
   let nameProfile = ``;
   if (totalWatched === 0) {
@@ -16,3 +18,26 @@ export const createUserProfileTemplate = (cards) => {
     <img class="profile__avatar" src="images/bitmap@2x.png" alt="Avatar" width="35" height="35">
   </section>`);
 };
+
+export default class UserProfile {
+  constructor(cards) {
+    this._element = null;
+    this._cards = cards;
+  }
+
+  getTemplate() {
+    return createUserProfileTemplate(this._cards);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}

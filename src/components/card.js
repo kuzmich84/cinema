@@ -1,5 +1,5 @@
-import {getTime} from '../utils/common';
-export const createFilmCardTemplate = (card) => {
+import {createElement, getTime} from '../utils/common';
+const createFilmCardTemplate = (card) => {
 
   const {comments, filmInfo} = card;
   let date = new Date(filmInfo.release.date);
@@ -25,3 +25,27 @@ export const createFilmCardTemplate = (card) => {
           </form>
         </article>`);
 };
+
+export default class FilmCard {
+  constructor(card) {
+    this._element = null;
+    this._card = card;
+
+  }
+
+  getTemplate() {
+    return createFilmCardTemplate(this._card);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}
