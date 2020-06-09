@@ -60,7 +60,7 @@ let showingCardsCount = SHOWING_CARDS_COUNT_ON_START;
 
 
 render(filmsList, createButtonShowMoreTemplate(), `beforeend`);
-const posters = document.querySelectorAll(`.film-card__poster`);
+
 // Логика кнопки loadMoreButton
 const loadMoreButton = filmsList.querySelector(`.films-list__show-more`);
 
@@ -93,10 +93,11 @@ const showDetails = (collection) => {
   });
 };
 
+
+
 if (cards.length !== 0) {
   cards.slice(0, showingCardsCount).forEach((card) => render(filmsListContainer, createFilmCardTemplate(card), `beforeend`));
-  const postersClick = document.querySelectorAll(`.film-card__poster`);
-  showDetails(postersClick);
+
 } else {
   render(filmsListContainer, createNoDataTemplate(), `beforeend`);
   loadMoreButton.remove();
@@ -152,9 +153,7 @@ if (proverkaOfComment(cardsSortOfComment)) {
   renderFilmCard(Array.from(filmsListContainerExtra).slice(1)[1], cardsSortOfComment, 1);
 }
 
-
-
-showDetails(posters);
+showDetails(document.querySelectorAll(`.film-card__poster`));
 
 const footer = document.querySelector(`.footer`);
 render(footer, createFooterStatisticTemplate(cards), `beforeend`);
@@ -168,6 +167,9 @@ stat.addEventListener(`click`, (evt) => {
   render(siteMainElement, createStatisticTemplate(statisticData(cards)), `beforeend`);
 }
 );
+
+
+
 
 console.log(statisticData(cards));
 
