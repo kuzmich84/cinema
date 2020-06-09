@@ -1,5 +1,5 @@
 import {generateCards} from "./mock/card";
-import {render, RenderPosition} from "./utils/common";
+import {render, RenderPosition} from "./utils/render";
 import LoadMoreButtonComponent from "./components/button";
 import CardFilmComponent from "./components/card";
 import DetailsFilmComponent from "./components/details";
