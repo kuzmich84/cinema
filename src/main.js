@@ -84,6 +84,17 @@ const showDetails = (collection) => {
     item.addEventListener(`click`, () => {
       const detailsFilmComponent = new DetailsFilmComponent(cards[index]);
       render(document.querySelector(`body`), detailsFilmComponent.getElement(), RenderPosition.BEFOREEND);
+
+      const onEscKeyDown = (evt) => {
+        const isEscKey = evt.key === `Escape` || evt.key === `Esc`;
+        if (isEscKey) {
+          detailsFilmComponent.getElement().remove();
+          detailsFilmComponent.removeElement();
+          document.removeEventListener(`keydown`, onEscKeyDown);
+        }
+      };
+
+      document.addEventListener(`keydown`, onEscKeyDown);
       const buttonDetails = detailsFilmComponent.getElement().querySelector(`.film-details__close-btn`);
       buttonDetails.addEventListener(`click`, () => {
         detailsFilmComponent.getElement().remove();
