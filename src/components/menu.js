@@ -1,4 +1,6 @@
-export const createMenuTemplate = (cards) => {
+import {createElement} from "../utils/common";
+
+const createMenuTemplate = (cards) => {
   const {totalWatchlist, totalWatched, totalWatchFavorite} = cards;
   return (
     `<nav class="main-navigation">
@@ -11,3 +13,25 @@ export const createMenuTemplate = (cards) => {
   );
 };
 
+export default class SiteMenu {
+  constructor(cards) {
+    this._element = null;
+    this._cards = cards;
+  }
+
+  getTemplate() {
+    return createMenuTemplate(this._cards);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}

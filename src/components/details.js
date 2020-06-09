@@ -1,5 +1,5 @@
 import {generateComments} from "../mock/comments";
-import {getRandomInRange} from "../utils/common";
+import {createElement, getRandomInRange} from "../utils/common";
 
 const count = getRandomInRange(0, 5);
 const comments = generateComments(count);
@@ -51,12 +51,12 @@ const createElementComments = (comments) => {
 };
 
 
-export const createFilmDetailsTemplate = (card) => {
+const createFilmDetailsTemplate = (card) => {
   const {filmInfo} = card;
   const {
     title, ageDeclaimer, poster, alternativeTitle, rating, director, writers, actors, runtime, release,
     genre, description} = filmInfo;
-  const writersSring = writers.join(`, `);
+  const writersString = writers.join(`, `);
   const actorsString = actors.join(`, `);
 
   const newGenre = genre.map((item) => {
@@ -96,7 +96,7 @@ export const createFilmDetailsTemplate = (card) => {
             </tr>
             <tr class="film-details__row">
               <td class="film-details__term">Writers</td>
-              <td class="film-details__cell">${writersSring}</td>
+              <td class="film-details__cell">${writersString}</td>
             </tr>
             <tr class="film-details__row">
               <td class="film-details__term">Actors</td>
@@ -183,3 +183,27 @@ export const createFilmDetailsTemplate = (card) => {
 </section>`
   );
 };
+
+export default class DetailsPopUp {
+  constructor(card) {
+    this._element = null;
+    this._card = card;
+
+  }
+
+  getTemplate() {
+    return createFilmDetailsTemplate(this._card);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}
