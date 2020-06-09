@@ -1,4 +1,4 @@
-import {createDescription, getRandomArrayItem, getRandomInRange, getRandomFloatInRange, getRandomEventTime} from "../utils/common";
+import {createDescription, getRandomArrayItem, getRandomInRange, getRandomEventTime} from "../utils/common";
 
 
 const FILMS_NAMES = [`Интердевочка`, `Берегись автомобиля`, `Друзья`, `Трансформеры`, `Такси`,
