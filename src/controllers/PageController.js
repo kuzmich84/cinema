@@ -67,10 +67,13 @@ export default class BoardController {
     render(container, this._filmsListComponent, RenderPosition.BEFOREEND);
     render(this._filmsListComponent.getElement(), this._filmListContainerComponent, RenderPosition.BEFOREEND);
 
+    const renderCards = (cardsListElement, cards) => {
+      cards.forEach((card) => renderCard(card, cardsListElement);
+    };
 
     // отрисовка карточек
     if (cards.length !== 0) {
-      cards.slice(0, showingCardsCount).forEach((card) => renderCard(card, this._filmListContainerComponent.getElement()));
+      // cards.slice(0, showingCardsCount).forEach((card) => renderCard(card, this._filmListContainerComponent.getElement()));
       titles.forEach((title) => render(container, new ExtraFilmComponent(title), RenderPosition.BEFOREEND));
     } else {
       render(container, this._noDataComponent, RenderPosition.BEFOREEND);
