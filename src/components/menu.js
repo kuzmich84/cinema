@@ -1,4 +1,4 @@
-import {createElement} from "../utils/common";
+import AbstractComponent from "./abstract-component";
 
 const createMenuTemplate = (cards) => {
   const {totalWatchlist, totalWatched, totalWatchFavorite} = cards;
@@ -13,9 +13,9 @@ const createMenuTemplate = (cards) => {
   );
 };
 
-export default class SiteMenu {
+export default class SiteMenu extends AbstractComponent {
   constructor(cards) {
-    this._element = null;
+    super();
     this._cards = cards;
   }
 
@@ -23,15 +23,12 @@ export default class SiteMenu {
     return createMenuTemplate(this._cards);
   }
 
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
+  setShowStatClickHandler(handler) {
+    this.getElement().querySelector(`.main-navigation__item--additional`).addEventListener(`click`, handler);
   }
 
-  removeElement() {
-    this._element = null;
+  removeShowStatClickHandler(handler) {
+    this.getElement().querySelector(`.main-navigation__item--additional`).removeEventListener(`click`, handler);
   }
+
 }

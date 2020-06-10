@@ -1,4 +1,5 @@
-import {createElement, getTime} from '../utils/common';
+import {getTime} from '../utils/common';
+import AbstractComponent from "./abstract-component";
 const createFilmCardTemplate = (card) => {
 
   const {comments, filmInfo} = card;
@@ -26,26 +27,18 @@ const createFilmCardTemplate = (card) => {
         </article>`);
 };
 
-export default class FilmCard {
+export default class FilmCard extends AbstractComponent {
   constructor(card) {
-    this._element = null;
+    super();
     this._card = card;
-
   }
 
   getTemplate() {
     return createFilmCardTemplate(this._card);
   }
 
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
+  setShowDetailsClickHandler(handler, element) {
+    this.getElement().querySelector(element)
+      .addEventListener(`click`, handler);
   }
 }

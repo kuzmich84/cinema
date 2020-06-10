@@ -1,4 +1,5 @@
 import {createElement, getTime} from "../utils/common";
+import AbstractComponent from "./abstract-component";
 
 const createStatisticTemplate = (cards) => {
 
@@ -66,9 +67,9 @@ const createStatisticTemplate = (cards) => {
   </section>`);
 };
 
-export default class Statistic {
+export default class Statistic extends AbstractComponent {
   constructor(cards) {
-    this._element = null;
+    super();
     this._cards = cards;
   }
 
@@ -76,15 +77,7 @@ export default class Statistic {
     return createStatisticTemplate(this._cards);
   }
 
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
+  setShowStatClickHandler(handler) {
+    this.getElement().addEventListener(`click`, handler);
   }
 }

@@ -34,25 +34,15 @@ export const getTime = (time) => {
   }
 };
 
-export const RenderPosition = {
-  AFTERBEGIN: `afterbegin`,
-  BEFOREEND: `beforeend`
-};
-
-export const createElement = (template) => {
-  const newElement = document.createElement(`div`);
-  newElement.innerHTML = template;
-
-  return newElement.firstChild;
-};
-
-export const render = (container, element, place) => {
-  switch (place) {
-    case RenderPosition.AFTERBEGIN:
-      container.prepend(element);
-      break;
-    case RenderPosition.BEFOREEND:
-      container.append(element);
-      break;
-  }
+// формирует данные для статистики
+export const statisticData = (arr) => {
+  const cardsFilterWatched = arr.filter((card) => card.userDetails.alreadyWatched);
+  const cardsFilterWatchlist = arr.filter((card) => card.userDetails.watchlist);
+  const cardsFilterFavorite = arr.filter((card) => card.userDetails.favorite);
+  return {
+    totalWatched: cardsFilterWatched.length,
+    totalWatchedTime: cardsFilterWatched.reduce((sum, current) => sum + current.filmInfo.runtime, 0),
+    totalWatchlist: cardsFilterWatchlist.reduce((sum, current) => sum + current.userDetails.watchlist, 0),
+    totalWatchFavorite: cardsFilterFavorite.reduce((sum, current) => sum + current.userDetails.favorite, 0)
+  };
 };
