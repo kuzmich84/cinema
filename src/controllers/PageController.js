@@ -128,7 +128,7 @@ export default class BoardController {
 
     renderLoadMoreButton();
 
-
+   // сортировка
     this._sortComponent.setSortTypeChangeHandler((sortType) => {
       let sortedCards = [];
 
@@ -203,6 +203,7 @@ export default class BoardController {
       renderFilmCard(Array.from(filmsListContainerExtra).slice(1)[1], cardsSortOfComment, 1);
     }
 
+    // Показывает статистику
     const showStat = (evt) => {
       evt.preventDefault();
       remove(this._filmContainerComponent);

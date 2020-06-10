@@ -24,11 +24,11 @@ export default class SiteMenu extends AbstractComponent {
   }
 
   setShowStatClickHandler(handler) {
-    this.getElement().addEventListener(`click`, handler);
+    this.getElement().querySelector(`.main-navigation__item--additional`).addEventListener(`click`, handler);
   }
 
   removeShowStatClickHandler(handler) {
-    this.getElement().removeEventListener(`click`, handler);
+    this.getElement().querySelector(`.main-navigation__item--additional`).removeEventListener(`click`, handler);
   }
 
 }
