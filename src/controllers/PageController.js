@@ -52,7 +52,6 @@ let showingCardsCount = SHOWING_CARDS_COUNT_ON_START;
 const titles = [`Top rated`, `Most commented`];
 
 
-
 export default class BoardController {
   constructor(container) {
     this._container = container;
@@ -79,21 +78,31 @@ export default class BoardController {
     }
 
     // Отрисует кнопку
-    render(this._filmsListComponent.getElement(), this._loadMoreButtonComponent, RenderPosition.BEFOREEND);
 
 
-    // Логика кнопки loadMoreButton
-    this._loadMoreButtonComponent.setClickHandler(() => {
-      const prevTasksCount = showingCardsCount;
-      showingCardsCount = showingCardsCount + SHOWING_CARDS_COUNT_BY_BUTTON;
-
-      cards.slice(prevTasksCount, showingCardsCount)
-        .forEach((card) => renderCard(card, this._filmListContainerComponent.getElement()));
+    const renderLoadMoreButton = () => {
 
       if (showingCardsCount >= cards.length) {
-        remove(this._loadMoreButtonComponent);
+        return;
       }
-    });
+
+      render(this._filmsListComponent.getElement(), this._loadMoreButtonComponent, RenderPosition.BEFOREEND);
+
+      // Логика кнопки loadMoreButton
+      this._loadMoreButtonComponent.setClickHandler(() => {
+        const prevTasksCount = showingCardsCount;
+        showingCardsCount = showingCardsCount + SHOWING_CARDS_COUNT_BY_BUTTON;
+
+        cards.slice(prevTasksCount, showingCardsCount)
+          .forEach((card) => renderCard(card, this._filmListContainerComponent.getElement()));
+
+        if (showingCardsCount >= cards.length) {
+          remove(this._loadMoreButtonComponent);
+        }
+      });
+
+    };
+
 
     // Отрисует популярность фильмов
 
