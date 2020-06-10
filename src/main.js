@@ -25,9 +25,19 @@ const renderCard = (card, container) => {
   const cardComponent = new CardFilmComponent(card);
   const detailsFilmComponent = new DetailsFilmComponent(card);
 
+  const onEscKeyDown = (evt) => {
+    const isEscKey = evt.key === `Escape` || evt.key === `Esc`;
+
+    if (isEscKey) {
+      remove(detailsFilmComponent);
+      document.removeEventListener(`keydown`, onEscKeyDown);
+    }
+  };
+
   const cardHandler = cardComponent.getElement().querySelector(`.film-card__poster`);
   cardHandler.addEventListener(`click`, () => {
     render(document.querySelector(`body`), detailsFilmComponent, RenderPosition.BEFOREEND);
+    document.addEventListener(`keydown`, onEscKeyDown);
   });
 
   const detailsButton = detailsFilmComponent.getElement().querySelector(`.film-details__close-btn`);
