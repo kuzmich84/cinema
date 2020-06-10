@@ -37,8 +37,8 @@ export default class FilmCard extends AbstractComponent {
     return createFilmCardTemplate(this._card);
   }
 
-  setEditButtonClickHandler(handler) {
-    this.getElement().querySelector(`.film-card__poster`)
+  setShowDetailsClickHandler(handler, element) {
+    this.getElement().querySelector(element)
       .addEventListener(`click`, handler);
   }
 }

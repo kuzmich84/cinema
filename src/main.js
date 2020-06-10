@@ -34,11 +34,22 @@ const renderCard = (card, container) => {
     }
   };
 
-  const cardHandler = cardComponent.getElement().querySelector(`.film-card__poster`);
-  cardHandler.addEventListener(`click`, () => {
+  const showDetails = () => {
     render(document.querySelector(`body`), detailsFilmComponent, RenderPosition.BEFOREEND);
     document.addEventListener(`keydown`, onEscKeyDown);
-  });
+  };
+
+  cardComponent.setShowDetailsClickHandler(() => {
+    showDetails();
+  }, `.film-card__poster`);
+
+  cardComponent.setShowDetailsClickHandler(() => {
+    showDetails();
+  }, `.film-card__title`);
+
+  cardComponent.setShowDetailsClickHandler(() => {
+    showDetails();
+  }, `.film-card__comments`);
 
   const detailsButton = detailsFilmComponent.getElement().querySelector(`.film-details__close-btn`);
   detailsButton.addEventListener(`click`, () => {
@@ -141,7 +152,7 @@ const cardsSortOfRating = cards.slice().sort((prev, next) => next.filmInfo.ratin
 
 function renderFilmCard(container, array, count) {
   for (let i = 0; i < count; i++) {
-    array.slice(0, 2).forEach((card) =>renderCard(card, container));
+    array.slice(0, 2).forEach((card) => renderCard(card, container));
   }
 }
 
