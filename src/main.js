@@ -113,29 +113,6 @@ loadMoreButtonComponent.setClickHandler(() => {
 });
 
 
-// const showDetails = (collection) => {
-//   collection.forEach((item, index) => {
-//     item.addEventListener(`click`, () => {
-//       const detailsFilmComponent = new DetailsFilmComponent(cards[index]);
-//       render(document.querySelector(`body`), detailsFilmComponent, RenderPosition.BEFOREEND);
-//
-//       const onEscKeyDown = (evt) => {
-//         const isEscKey = evt.key === `Escape` || evt.key === `Esc`;
-//         if (isEscKey) {
-//           remove(detailsFilmComponent);
-//           window.removeEventListener(`keydown`, onEscKeyDown);
-//         }
-//       };
-//
-//       document.addEventListener(`keydown`, onEscKeyDown);
-//       const buttonDetails = detailsFilmComponent.getElement().querySelector(`.film-details__close-btn`);
-//       buttonDetails.addEventListener(`click`, () => {
-//         remove(detailsFilmComponent);
-//       });
-//     });
-//   });
-// };
-
 const titles = [`Top rated`, `Most commented`];
 
 if (cards.length !== 0) {
