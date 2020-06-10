@@ -100,7 +100,7 @@ render(filmsList, loadMoreButtonComponent, RenderPosition.BEFOREEND);
 
 
 // Логика кнопки loadMoreButton
-loadMoreButtonComponent.getElement().addEventListener(`click`, () => {
+loadMoreButtonComponent.setClickHandler(() => {
   const prevTasksCount = showingCardsCount;
   showingCardsCount = showingCardsCount + SHOWING_CARDS_COUNT_BY_BUTTON;
 
@@ -111,6 +111,7 @@ loadMoreButtonComponent.getElement().addEventListener(`click`, () => {
     remove(loadMoreButtonComponent);
   }
 });
+
 
 // const showDetails = (collection) => {
 //   collection.forEach((item, index) => {
