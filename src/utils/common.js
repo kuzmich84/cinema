@@ -34,3 +34,15 @@ export const getTime = (time) => {
   }
 };
 
+// формирует данные для статистики
+export const statisticData = (arr) => {
+  const cardsFilterWatched = arr.filter((card) => card.userDetails.alreadyWatched);
+  const cardsFilterWatchlist = arr.filter((card) => card.userDetails.watchlist);
+  const cardsFilterFavorite = arr.filter((card) => card.userDetails.favorite);
+  return {
+    totalWatched: cardsFilterWatched.length,
+    totalWatchedTime: cardsFilterWatched.reduce((sum, current) => sum + current.filmInfo.runtime, 0),
+    totalWatchlist: cardsFilterWatchlist.reduce((sum, current) => sum + current.userDetails.watchlist, 0),
+    totalWatchFavorite: cardsFilterFavorite.reduce((sum, current) => sum + current.userDetails.favorite, 0)
+  };
+};

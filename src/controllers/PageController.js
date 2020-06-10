@@ -6,6 +6,11 @@ import ExtraFilmComponent from "../components/extra";
 import NoDataComponent from "../components/no-data";
 import FilmListContainerComponent from "../components/filmsListContainer";
 import FilmsListComponent from "../components/filmsList";
+import Sort, {SortType} from "../components/sort";
+import FilmContainerComponent from "../components/filmContainer";
+import SiteMenuComponent from "../components/menu";
+import {statisticData} from "../utils/common";
+import StatisticComponent from "../components/statistic";
 
 const renderCard = (card, container) => {
   const cardComponent = new CardFilmComponent(card);
@@ -51,6 +56,11 @@ const SHOWING_CARDS_COUNT_BY_BUTTON = 5;
 let showingCardsCount = SHOWING_CARDS_COUNT_ON_START;
 const titles = [`Top rated`, `Most commented`];
 
+const renderCards = (cardsListElement, cards) => {
+  cards.forEach((card) => renderCard(card, cardsListElement));
+};
+
+
 
 export default class BoardController {
   constructor(container) {
@@ -59,29 +69,13 @@ export default class BoardController {
     this._noDataComponent = new NoDataComponent();
     this._filmListContainerComponent = new FilmListContainerComponent();
     this._filmsListComponent = new FilmsListComponent();
+    this._sortComponent = new Sort();
+    this._filmContainerComponent = new FilmContainerComponent();
   }
 
 
   render(cards) {
-    const container = this._container.getElement();
-    render(container, this._filmsListComponent, RenderPosition.BEFOREEND);
-    render(this._filmsListComponent.getElement(), this._filmListContainerComponent, RenderPosition.BEFOREEND);
-
-    const renderCards = (cardsListElement, cards) => {
-      cards.forEach((card) => renderCard(card, cardsListElement);
-    };
-
-    // отрисовка карточек
-    if (cards.length !== 0) {
-      // cards.slice(0, showingCardsCount).forEach((card) => renderCard(card, this._filmListContainerComponent.getElement()));
-      titles.forEach((title) => render(container, new ExtraFilmComponent(title), RenderPosition.BEFOREEND));
-    } else {
-      render(container, this._noDataComponent, RenderPosition.BEFOREEND);
-      remove(this._loadMoreButtonComponent);
-    }
-
-    // Отрисует кнопку
-
+    const container = this._container;
 
     const renderLoadMoreButton = () => {
 
@@ -105,7 +99,62 @@ export default class BoardController {
       });
 
     };
+    const siteMenuComponent = new SiteMenuComponent(statisticData(cards));
+    // выводить меню
+    render(container, siteMenuComponent, RenderPosition.BEFOREEND);
 
+    // выводит сортировку
+    render(container, this._sortComponent, RenderPosition.BEFOREEND);
+
+    // выводит контейнер films
+    render(container, this._filmContainerComponent, RenderPosition.BEFOREEND);
+
+    render(this._filmContainerComponent.getElement(), this._filmsListComponent, RenderPosition.BEFOREEND);
+
+    // выводит контейнер для карточек
+    render(this._filmsListComponent.getElement(), this._filmListContainerComponent, RenderPosition.BEFOREEND);
+
+
+    // отрисовка карточек
+    if (cards.length !== 0) {
+      renderCards(this._filmListContainerComponent.getElement(), cards.slice(0, showingCardsCount));
+      titles.forEach((title) => render(this._filmContainerComponent.getElement(), new ExtraFilmComponent(title), RenderPosition.BEFOREEND));
+    } else {
+      render(container, this._noDataComponent, RenderPosition.BEFOREEND);
+      remove(this._loadMoreButtonComponent);
+    }
+
+    // Отрисует кнопку
+
+    renderLoadMoreButton();
+
+
+    this._sortComponent.setSortTypeChangeHandler((sortType) => {
+      let sortedCards = [];
+
+      switch (sortType) {
+        case SortType.DATE:
+          sortedCards = cards.slice().sort((a, b) => b.filmInfo.release.date - a.filmInfo.release.date);
+          break;
+        case SortType.RATING:
+          sortedCards = cards.slice().sort((a, b) => b.filmInfo.rating - a.filmInfo.rating);
+          break;
+        case SortType.DEFAULT:
+          sortedCards = cards.slice(0, showingCardsCount);
+          break;
+      }
+
+      this._filmListContainerComponent.getElement().innerHTML = ``;
+
+      renderCards(this._filmListContainerComponent.getElement(), sortedCards);
+
+
+      if (sortType === SortType.DEFAULT) {
+        renderLoadMoreButton();
+      } else {
+        remove(this._loadMoreButtonComponent);
+      }
+    });
 
     // Отрисует популярность фильмов
 
@@ -153,6 +202,15 @@ export default class BoardController {
     if (proverkaOfComment(cardsSortOfComment)) {
       renderFilmCard(Array.from(filmsListContainerExtra).slice(1)[1], cardsSortOfComment, 1);
     }
+
+    const showStat = (evt) => {
+      evt.preventDefault();
+      remove(this._filmContainerComponent);
+      remove(this._sortComponent);
+      render(container, new StatisticComponent(statisticData(cards)), RenderPosition.BEFOREEND);
+      siteMenuComponent.removeShowStatClickHandler(showStat);
+    };
+    siteMenuComponent.setShowStatClickHandler(showStat);
 
   }
 }
