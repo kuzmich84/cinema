@@ -6,7 +6,6 @@ import UserProfileComponent from "./components/profile";
 import SortComponent from "./components/sort";
 import StatisticComponent from "./components/statistic";
 import FooterStatisticComponent from "./components/footerStatistic";
-import FilmListContainerComponent from "./components/filmsListContainer";
 import BoardController from "./controllers/board";
 
 const FILM_COUNT = 15;
@@ -38,7 +37,8 @@ render(header, new UserProfileComponent(statisticData(cards)), RenderPosition.BE
 
 
 const siteMainElement = document.querySelector(`.main`);
-render(siteMainElement, new SiteMenuComponent(statisticData(cards)), RenderPosition.BEFOREEND);
+const siteMenuComponent = new SiteMenuComponent(statisticData(cards));
+render(siteMainElement, siteMenuComponent, RenderPosition.BEFOREEND);
 
 const sortComponent = new SortComponent();
 render(siteMainElement, sortComponent, RenderPosition.BEFOREEND);
@@ -46,31 +46,21 @@ render(siteMainElement, sortComponent, RenderPosition.BEFOREEND);
 const filmContainerComponent = new FilmContainerComponent();
 render(siteMainElement, filmContainerComponent, RenderPosition.BEFOREEND);
 
-//
-// render(filmContainerComponent.getElement(), filmListContainerComponent, RenderPosition.BEFOREEND);
-// debugger;
+// Отрисует боард с карточками
 const boardController = new BoardController(filmContainerComponent);
 boardController.render(cards);
 
-
-
-
-
-
 const footer = document.querySelector(`.footer`);
 render(footer, new FooterStatisticComponent(cards), RenderPosition.BEFOREEND);
-
-const stat = document.querySelector(`.main-navigation__item--additional`);
 
 const showStat = (evt) => {
   evt.preventDefault();
   remove(filmContainerComponent);
   remove(sortComponent);
   render(siteMainElement, new StatisticComponent(statisticData(cards)), RenderPosition.BEFOREEND);
-  stat.removeEventListener(`click`, showStat);
+  siteMenuComponent.removeShowStatClickHandler(showStat);
 };
-
-stat.addEventListener(`click`, showStat);
+siteMenuComponent.setShowStatClickHandler(showStat);
 
 
 console.log(statisticData(cards));

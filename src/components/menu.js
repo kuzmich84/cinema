@@ -1,4 +1,3 @@
-
 import AbstractComponent from "./abstract-component";
 
 const createMenuTemplate = (cards) => {
@@ -23,4 +22,13 @@ export default class SiteMenu extends AbstractComponent {
   getTemplate() {
     return createMenuTemplate(this._cards);
   }
+
+  setShowStatClickHandler(handler) {
+    this.getElement().addEventListener(`click`, handler);
+  }
+
+  removeShowStatClickHandler(handler) {
+    this.getElement().removeEventListener(`click`, handler);
+  }
+
 }

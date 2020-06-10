@@ -76,4 +76,8 @@ export default class Statistic extends AbstractComponent {
   getTemplate() {
     return createStatisticTemplate(this._cards);
   }
+
+  setShowStatClickHandler(handler) {
+    this.getElement().addEventListener(`click`, handler);
+  }
 }
