@@ -1,5 +1,5 @@
 import {generateCards} from "./mock/card";
-import {render, RenderPosition} from "./utils/render";
+import {render, RenderPosition, remove} from "./utils/render";
 import LoadMoreButtonComponent from "./components/button";
 import CardFilmComponent from "./components/card";
 import DetailsFilmComponent from "./components/details";
@@ -39,17 +39,17 @@ console.log(cards);
 
 
 const header = document.querySelector(`.header`);
-render(header, new UserProfileComponent(statisticData(cards)).getElement(), RenderPosition.BEFOREEND);
+render(header, new UserProfileComponent(statisticData(cards)), RenderPosition.BEFOREEND);
 
 
 const siteMainElement = document.querySelector(`.main`);
-render(siteMainElement, new SiteMenuComponent(statisticData(cards)).getElement(), RenderPosition.BEFOREEND);
+render(siteMainElement, new SiteMenuComponent(statisticData(cards)), RenderPosition.BEFOREEND);
 
 const sortComponent = new SortComponent();
-render(siteMainElement, sortComponent.getElement(), RenderPosition.BEFOREEND);
+render(siteMainElement, sortComponent, RenderPosition.BEFOREEND);
 
 const filmContainerComponent = new FilmContainerComponent();
-render(siteMainElement, filmContainerComponent.getElement(), RenderPosition.BEFOREEND);
+render(siteMainElement, filmContainerComponent, RenderPosition.BEFOREEND);
 
 const filmsList = filmContainerComponent.getElement().querySelector(`.films-list`);
 const filmsListContainer = filmsList.querySelector(`.films-list__container`);
@@ -57,7 +57,7 @@ const filmsListContainer = filmsList.querySelector(`.films-list__container`);
 let showingCardsCount = SHOWING_CARDS_COUNT_ON_START;
 
 const loadMoreButtonComponent = new LoadMoreButtonComponent();
-render(filmsList, loadMoreButtonComponent.getElement(), RenderPosition.BEFOREEND);
+render(filmsList, loadMoreButtonComponent, RenderPosition.BEFOREEND);
 
 
 // Логика кнопки loadMoreButton
@@ -66,11 +66,10 @@ loadMoreButtonComponent.getElement().addEventListener(`click`, () => {
   showingCardsCount = showingCardsCount + SHOWING_CARDS_COUNT_BY_BUTTON;
 
   cards.slice(prevTasksCount, showingCardsCount)
-    .forEach((card) => render(filmsListContainer, new CardFilmComponent(card).getElement(), RenderPosition.BEFOREEND));
+    .forEach((card) => render(filmsListContainer, new CardFilmComponent(card), RenderPosition.BEFOREEND));
 
   if (showingCardsCount >= cards.length) {
-    loadMoreButtonComponent.getElement().remove();
-    loadMoreButtonComponent.removeElement();
+    remove(loadMoreButtonComponent);
   }
 
   showDetails(document.querySelectorAll(`.film-card__poster`));
@@ -83,13 +82,12 @@ const showDetails = (collection) => {
   collection.forEach((item, index) => {
     item.addEventListener(`click`, () => {
       const detailsFilmComponent = new DetailsFilmComponent(cards[index]);
-      render(document.querySelector(`body`), detailsFilmComponent.getElement(), RenderPosition.BEFOREEND);
+      render(document.querySelector(`body`), detailsFilmComponent, RenderPosition.BEFOREEND);
 
       const onEscKeyDown = (evt) => {
         const isEscKey = evt.key === `Escape` || evt.key === `Esc`;
         if (isEscKey) {
-          detailsFilmComponent.getElement().remove();
-          detailsFilmComponent.removeElement();
+          remove(detailsFilmComponent);
           window.removeEventListener(`keydown`, onEscKeyDown);
         }
       };
@@ -97,21 +95,20 @@ const showDetails = (collection) => {
       document.addEventListener(`keydown`, onEscKeyDown);
       const buttonDetails = detailsFilmComponent.getElement().querySelector(`.film-details__close-btn`);
       buttonDetails.addEventListener(`click`, () => {
-        detailsFilmComponent.getElement().remove();
-        detailsFilmComponent.removeElement();
+        remove(detailsFilmComponent);
       });
     });
   });
 };
+
 const titles = [`Top rated`, `Most commented`];
 
 if (cards.length !== 0) {
-  cards.slice(0, showingCardsCount).forEach((card) => render(filmsListContainer, new CardFilmComponent(card).getElement(), RenderPosition.BEFOREEND));
-  titles.forEach((title) => render(filmContainerComponent.getElement(), new ExtraFilmComponent(title).getElement(), RenderPosition.BEFOREEND));
+  cards.slice(0, showingCardsCount).forEach((card) => render(filmsListContainer, new CardFilmComponent(card), RenderPosition.BEFOREEND));
+  titles.forEach((title) => render(filmContainerComponent.getElement(), new ExtraFilmComponent(title), RenderPosition.BEFOREEND));
 } else {
-  render(filmsListContainer, new NoDataComponent().getElement(), RenderPosition.BEFOREEND);
-  loadMoreButtonComponent.getElement().remove();
-  loadMoreButtonComponent.removeElement();
+  render(filmsListContainer, new NoDataComponent(), RenderPosition.BEFOREEND);
+  remove(loadMoreButtonComponent);
 }
 
 const filmsListContainerExtra = document.querySelectorAll(`.films-list__container`);
@@ -121,7 +118,7 @@ const cardsSortOfRating = cards.slice().sort((prev, next) => next.filmInfo.ratin
 
 function renderFilmCard(container, array, count) {
   for (let i = 0; i < count; i++) {
-    array.slice(0, 2).forEach((card) => render(container, new CardFilmComponent(card).getElement(), RenderPosition.BEFOREEND));
+    array.slice(0, 2).forEach((card) => render(container, new CardFilmComponent(card), RenderPosition.BEFOREEND));
   }
 }
 
@@ -165,21 +162,19 @@ showDetails(document.querySelectorAll(`.film-card__comments`));
 
 
 const footer = document.querySelector(`.footer`);
-render(footer, new FooterStatisticComponent(cards).getElement(), RenderPosition.BEFOREEND);
+render(footer, new FooterStatisticComponent(cards), RenderPosition.BEFOREEND);
 
 const stat = document.querySelector(`.main-navigation__item--additional`);
 
 const showStat = (evt) => {
   evt.preventDefault();
-  filmContainerComponent.getElement().remove();
-  filmContainerComponent.removeElement();
-  sortComponent.removeElement();
-  render(siteMainElement, new StatisticComponent(statisticData(cards)).getElement(), RenderPosition.BEFOREEND);
+  remove(filmContainerComponent);
+  remove(sortComponent);
+  render(siteMainElement, new StatisticComponent(statisticData(cards)), RenderPosition.BEFOREEND);
   stat.removeEventListener(`click`, showStat);
 };
 
 stat.addEventListener(`click`, showStat);
-
 
 
 console.log(statisticData(cards));
