@@ -1,4 +1,3 @@
-import {createElement} from "../utils/common";
 import AbstractComponent from "./abstract-component";
 
 const createFilmsExtraContainer = (title) => {

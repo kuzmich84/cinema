@@ -1,21 +1,15 @@
 import {generateCards} from "./mock/card";
 import {render, RenderPosition, remove} from "./utils/render";
-import LoadMoreButtonComponent from "./components/button";
-import CardFilmComponent from "./components/card";
-import DetailsFilmComponent from "./components/details";
-import ExtraFilmComponent from "./components/extra";
 import FilmContainerComponent from "./components/filmContainer";
 import SiteMenuComponent from "./components/menu";
-import NoDataComponent from "./components/no-data";
 import UserProfileComponent from "./components/profile";
 import SortComponent from "./components/sort";
 import StatisticComponent from "./components/statistic";
 import FooterStatisticComponent from "./components/footerStatistic";
+import FilmListContainerComponent from "./components/filmsListContainer";
+import BoardController from "./controllers/board";
 
 const FILM_COUNT = 15;
-const SHOWING_CARDS_COUNT_ON_START = 5;
-const SHOWING_CARDS_COUNT_BY_BUTTON = 5;
-
 const cards = generateCards(FILM_COUNT).map((item, index) => {
   item.id = index;
   return item;
@@ -52,83 +46,16 @@ render(siteMainElement, sortComponent, RenderPosition.BEFOREEND);
 const filmContainerComponent = new FilmContainerComponent();
 render(siteMainElement, filmContainerComponent, RenderPosition.BEFOREEND);
 
-const filmsList = filmContainerComponent.getElement().querySelector(`.films-list`);
-const filmsListContainer = filmsList.querySelector(`.films-list__container`);
-
-let showingCardsCount = SHOWING_CARDS_COUNT_ON_START;
-
-const loadMoreButtonComponent = new LoadMoreButtonComponent();
-render(filmsList, loadMoreButtonComponent, RenderPosition.BEFOREEND);
+//
+// render(filmContainerComponent.getElement(), filmListContainerComponent, RenderPosition.BEFOREEND);
+// debugger;
+const boardController = new BoardController(filmContainerComponent);
+boardController.render(cards);
 
 
-// Логика кнопки loadMoreButton
-loadMoreButtonComponent.setClickHandler(() => {
-  const prevTasksCount = showingCardsCount;
-  showingCardsCount = showingCardsCount + SHOWING_CARDS_COUNT_BY_BUTTON;
-
-  cards.slice(prevTasksCount, showingCardsCount)
-    .forEach((card) => renderCard(card, filmsListContainer));
-
-  if (showingCardsCount >= cards.length) {
-    remove(loadMoreButtonComponent);
-  }
-});
 
 
-const titles = [`Top rated`, `Most commented`];
 
-if (cards.length !== 0) {
-  cards.slice(0, showingCardsCount).forEach((card) => renderCard(card, filmsListContainer));
-  titles.forEach((title) => render(filmContainerComponent.getElement(), new ExtraFilmComponent(title), RenderPosition.BEFOREEND));
-} else {
-  render(filmsListContainer, new NoDataComponent(), RenderPosition.BEFOREEND);
-  remove(loadMoreButtonComponent);
-}
-
-const filmsListContainerExtra = document.querySelectorAll(`.films-list__container`);
-const cardsSortOfComment = cards.slice().sort((prev, next) => next.comments - prev.comments);
-const cardsSortOfRating = cards.slice().sort((prev, next) => next.filmInfo.rating - prev.filmInfo.rating);
-
-
-function renderFilmCard(container, array, count) {
-  for (let i = 0; i < count; i++) {
-    array.slice(0, 2).forEach((card) => renderCard(card, container));
-  }
-}
-
-const proverkaOfRating = (arr) => {
-  let bool = true;
-  arr.slice(0, 1).forEach((item) => {
-    if (item.filmInfo.rating === 0) {
-      bool = false;
-    } else {
-      bool = true;
-    }
-    return bool;
-  });
-  return bool;
-};
-const proverkaOfComment = (arr) => {
-  let bool = true;
-  arr.slice(0, 1).forEach((item) => {
-    if (item.comments === 0) {
-      bool = false;
-    } else {
-      bool = true;
-    }
-    return bool;
-  });
-  return bool;
-};
-
-
-if (proverkaOfRating(cardsSortOfRating)) {
-  renderFilmCard(Array.from(filmsListContainerExtra).slice(1)[0], cardsSortOfRating, 1);
-}
-
-if (proverkaOfComment(cardsSortOfComment)) {
-  renderFilmCard(Array.from(filmsListContainerExtra).slice(1)[1], cardsSortOfComment, 1);
-}
 
 const footer = document.querySelector(`.footer`);
 render(footer, new FooterStatisticComponent(cards), RenderPosition.BEFOREEND);
