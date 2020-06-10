@@ -6,7 +6,7 @@ import UserProfileComponent from "./components/profile";
 import SortComponent from "./components/sort";
 import StatisticComponent from "./components/statistic";
 import FooterStatisticComponent from "./components/footerStatistic";
-import BoardController from "./controllers/board";
+import PageController from "./controllers/PageController";
 
 const FILM_COUNT = 15;
 const cards = generateCards(FILM_COUNT).map((item, index) => {
@@ -47,8 +47,8 @@ const filmContainerComponent = new FilmContainerComponent();
 render(siteMainElement, filmContainerComponent, RenderPosition.BEFOREEND);
 
 // Отрисует боард с карточками
-const boardController = new BoardController(filmContainerComponent);
-boardController.render(cards);
+const pageController = new PageController(filmContainerComponent);
+pageController.render(cards);
 
 const footer = document.querySelector(`.footer`);
 render(footer, new FooterStatisticComponent(cards), RenderPosition.BEFOREEND);
