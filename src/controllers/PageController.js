@@ -37,6 +37,7 @@ export default class BoardController {
     this._sortComponent = new Sort();
     this._filmContainerComponent = new FilmContainerComponent();
     this._onSortTypeChange = this._onSortTypeChange.bind(this); // привязываем контекст к сортитровке, доступ к this._cards
+    this._onDataChange = this._onDataChange.bind(this);
 
 
     this._cards = [];
@@ -188,5 +189,16 @@ export default class BoardController {
     if (proverkaOfComment(cardsSortOfComment)) {
       renderCards(Array.from(filmsListContainerExtra).slice(1)[1], cardsSortOfComment.slice(0, 2));
     }
+  }
+
+  _onDataChange(cardController, oldData, newData) {
+    const index = this._cards.findIndex((it) => it === oldData);
+
+    if (index === -1) {
+      return;
+    }
+
+    this._cards = [].concat(this._cards.slice(0, index), newData, this._cards.slice(index + 1));
+    cardController.render(this._cards[index]);
   }
 }

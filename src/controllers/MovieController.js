@@ -4,8 +4,9 @@ import {remove, render, RenderPosition} from "../utils/render";
 
 
 export default class MovieController {
-  constructor(container) {
+  constructor(container, onDataChange) {
     this._container = container;
+    this._onDataChange = onDataChange;
 
     this._onEscKeyDown = this._onEscKeyDown.bind(this);
     this._cardComponent = null;
