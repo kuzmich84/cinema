@@ -151,7 +151,7 @@ export default class BoardController {
 
   _renderExtraList() {
 
-    const filmsListContainerExtra = document.querySelectorAll(`.films-list__container`);
+    const filmsListContainerExtra = this._container.querySelectorAll(`.films-list__container`);
     const cardsSortOfComment = this._cards.slice().sort((prev, next) => next.comments - prev.comments);
     const cardsSortOfRating = this._cards.slice().sort((prev, next) => next.filmInfo.rating - prev.filmInfo.rating);
 
