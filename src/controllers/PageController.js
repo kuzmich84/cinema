@@ -18,9 +18,9 @@ const SHOWING_CARDS_COUNT_BY_BUTTON = 5;
 let showingCardsCount = SHOWING_CARDS_COUNT_ON_START;
 const titles = [`Top rated`, `Most commented`];
 
-const renderCards = (cardsListElement, cards) => {
+const renderCards = (cardsListElement, cards, onDataChange, onViewChange) => {
   return cards.map((card) => {
-    const movieController = new MovieController(cardsListElement);
+    const movieController = new MovieController(cardsListElement, onDataChange, onViewChange);
     movieController.render(card);
     return movieController;
   });
@@ -38,6 +38,7 @@ export default class BoardController {
     this._filmContainerComponent = new FilmContainerComponent();
     this._onSortTypeChange = this._onSortTypeChange.bind(this); // привязываем контекст к сортитровке, доступ к this._cards
     this._onDataChange = this._onDataChange.bind(this);
+    this._onViewChange = this._onViewChange.bind(this);
 
 
     this._cards = [];
@@ -67,7 +68,7 @@ export default class BoardController {
     // выводит контейнер для карточек
     render(this._filmsListComponent.getElement(), this._filmListContainerComponent, RenderPosition.BEFOREEND);
 
-    const newCards = renderCards(this._filmListContainerComponent.getElement(), cards.slice(0, showingCardsCount));
+    const newCards = renderCards(this._filmListContainerComponent.getElement(), cards.slice(0, showingCardsCount), this._onDataChange, this._onViewChange);
     // отрисовка карточек
     if (newCards.length !== 0) {
       titles.forEach((title) => render(this._filmContainerComponent.getElement(), new ExtraFilmComponent(title), RenderPosition.BEFOREEND));
@@ -112,7 +113,7 @@ export default class BoardController {
       this._showingCardsCount = this._showingCardsCount + SHOWING_CARDS_COUNT_BY_BUTTON;
 
       const cardListElement = this._filmListContainerComponent.getElement();
-      const newCards = renderCards(cardListElement, this._cards.slice(prevCardsCount, this._showingCardsCount));
+      const newCards = renderCards(cardListElement, this._cards.slice(prevCardsCount, this._showingCardsCount), this._onDataChange);
       this._showedCardsControllers = this._showedCardsControllers.concat(newCards);
 
       if (this._showingCardsCount >= this._cards.length) {
@@ -140,7 +141,7 @@ export default class BoardController {
     const cardListElement = this._filmListContainerComponent.getElement();
     cardListElement.innerHTML = ``;
 
-    const newCards = renderCards(cardListElement, sortedCards);
+    const newCards = renderCards(cardListElement, sortedCards, this._onDataChange, this._onViewChange);
     this._showedCardsControllers = newCards;
 
     if (sortType === SortType.DEFAULT) {
@@ -183,11 +184,11 @@ export default class BoardController {
 
 
     if (proverkaOfRating(cardsSortOfRating)) {
-      renderCards(Array.from(filmsListContainerExtra).slice(1)[0], cardsSortOfRating.slice(0, 2));
+      renderCards(Array.from(filmsListContainerExtra).slice(1)[0], cardsSortOfRating.slice(0, 2), this._onDataChange, this._onViewChange);
     }
 
     if (proverkaOfComment(cardsSortOfComment)) {
-      renderCards(Array.from(filmsListContainerExtra).slice(1)[1], cardsSortOfComment.slice(0, 2));
+      renderCards(Array.from(filmsListContainerExtra).slice(1)[1], cardsSortOfComment.slice(0, 2), this._onDataChange, this._onViewChange);
     }
   }
 
@@ -200,5 +201,9 @@ export default class BoardController {
 
     this._cards = [].concat(this._cards.slice(0, index), newData, this._cards.slice(index + 1));
     cardController.render(this._cards[index]);
+  }
+
+  _onViewChange() {
+    this._showedCardsControllers.forEach((it) => it.setDefaultView());
   }
 }
