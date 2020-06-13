@@ -46,3 +46,4 @@ export const statisticData = (arr) => {
     totalWatchFavorite: cardsFilterFavorite.reduce((sum, current) => sum + current.userDetails.favorite, 0)
   };
 };
+
