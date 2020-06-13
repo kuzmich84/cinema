@@ -1,5 +1,6 @@
 import {getTime} from '../utils/common';
 import AbstractComponent from "./abstract-component";
+import moment from "moment";
 
 const createFilmCardTemplate = (card) => {
 

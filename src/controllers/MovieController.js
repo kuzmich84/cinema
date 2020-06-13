@@ -46,7 +46,7 @@ export default class MovieController {
       this._onDataChange(this, card, Object.assign({}, card, {
         userDetails: {
           watchlist: !card.userDetails.watchlist,
-          alreadyWatched: card.userDetails.watchlist,
+          alreadyWatched: card.userDetails.alreadyWatched,
           favorite: card.userDetails.favorite
         },
       }));

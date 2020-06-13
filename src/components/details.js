@@ -1,6 +1,7 @@
 import {generateComments} from "../mock/comments";
 import {getRandomInRange} from "../utils/common";
 import AbstractSmartComponent from "./abstratc-smart-component";
+import moment from "moment";
 
 const count = getRandomInRange(0, 5);
 const comments = generateComments(count);
