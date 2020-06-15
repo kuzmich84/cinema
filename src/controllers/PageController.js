@@ -56,7 +56,7 @@ export default class BoardController {
     const container = this._container;
     const cards = this._moviesModel.getMovies();
 
-    const siteMenuComponent = new SiteMenuComponent(statisticData(cards));
+    // const siteMenuComponent = new SiteMenuComponent(statisticData(cards));
     // выводить меню
 
 
@@ -90,17 +90,6 @@ export default class BoardController {
     // Отрисует популярность фильмов
 
     this._renderExtraList();
-
-
-    // Показывает статистику
-    const showStat = (evt) => {
-      evt.preventDefault();
-      remove(this._filmContainerComponent);
-      remove(this._sortComponent);
-      render(container, new StatisticComponent(statisticData(cards)), RenderPosition.BEFOREEND);
-      siteMenuComponent.removeShowStatClickHandler(showStat);
-    };
-    siteMenuComponent.setShowStatClickHandler(showStat);
   }
 
   _removeCards() {

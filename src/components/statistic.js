@@ -1,11 +1,11 @@
 import {getTime} from "../utils/common";
 import AbstractComponent from "./abstract-component";
 
-const createStatisticTemplate = (cards) => {
+const createStatisticTemplate = (filters) => {
 
-  const {totalWatched, totalWatchedTime} = cards;
+  const [all] = filters;
 
-  const countFilm = totalWatched;
+  const countFilm = all.count;
   let nameProfile = ``;
 
   if (countFilm === 0) {
@@ -18,7 +18,7 @@ const createStatisticTemplate = (cards) => {
     nameProfile = `Movie Buff`;
   }
 
-  const time = getTime(totalWatchedTime).split(` `);
+  const time = getTime(all.count).split(` `);
   return (`<section class="statistic">
     <p class="statistic__rank">
       Your rank
@@ -48,7 +48,7 @@ const createStatisticTemplate = (cards) => {
     <ul class="statistic__text-list">
       <li class="statistic__text-item">
         <h4 class="statistic__item-title">You watched</h4>
-        <p class="statistic__item-text">${totalWatched}<span class="statistic__item-description">movies</span></p>
+        <p class="statistic__item-text">${all.count}<span class="statistic__item-description">movies</span></p>
       </li>
       <li class="statistic__text-item">
         <h4 class="statistic__item-title">Total duration</h4>

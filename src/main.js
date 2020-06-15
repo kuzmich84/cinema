@@ -13,6 +13,8 @@ const cards = generateCards(FILM_COUNT).map((item, index) => {
   return item;
 });
 
+console.log(cards);
+
 const header = document.querySelector(`.header`);
 render(header, new UserProfileComponent(statisticData(cards)), RenderPosition.BEFOREEND);
 

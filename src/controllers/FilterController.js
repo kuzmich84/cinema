@@ -1,7 +1,10 @@
 import FilterComponent from "../components/menu";
-import {FilterType} from "../utils/common";
-import {replace, render, RenderPosition} from "../utils/render";
+import {FilterType, statisticData} from "../utils/common";
+import {replace, render, RenderPosition, remove} from "../utils/render";
 import {getCardsByFilter} from "../utils/filter";
+import StatisticComponent from "../components/statistic";
+import FilmContainerComponent from "../components/filmContainer";
+import SortComponent from "../components/sort";
 
 export default class FilterController {
   constructor(container, moviesModel) {
@@ -14,6 +17,8 @@ export default class FilterController {
     this._onFilterChange = this._onFilterChange.bind(this);
     this._onDataChange = this._onDataChange.bind(this);
     this._moviesModel.setDataChangeHandler(this._onDataChange);
+    this._filmContainerComponent = new FilmContainerComponent();
+    this._sortComponent = new SortComponent();
 
   }
 
@@ -39,6 +44,16 @@ export default class FilterController {
     } else {
       render(container, this._filterComponent, RenderPosition.BEFOREEND);
     }
+
+    // Показывает статистику
+    const showStat = (evt) => {
+      evt.preventDefault();
+      remove(this._filmContainerComponent);
+      remove(this._sortComponent);
+      render(container, new StatisticComponent(filters), RenderPosition.BEFOREEND);
+      this._filterComponent.removeShowStatClickHandler(showStat);
+    };
+    this._filterComponent.setShowStatClickHandler(showStat);
   }
 
   _onFilterChange(filterType) {
@@ -46,7 +61,7 @@ export default class FilterController {
     this._activeFilterType = filterType;
   }
 
-  _onDataChange() {0
+  _onDataChange() {
     this.render();
   }
 
