@@ -59,4 +59,6 @@ export default class FilmCard extends AbstractComponent {
     this.getElement().querySelector(`.film-card__controls-item--favorite`)
       .addEventListener(`click`, handler);
   }
+
+
 }

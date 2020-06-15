@@ -1,4 +1,4 @@
-import {createElement, getTime} from "../utils/common";
+import {getTime} from "../utils/common";
 import AbstractComponent from "./abstract-component";
 
 const createStatisticTemplate = (cards) => {
