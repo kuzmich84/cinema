@@ -1,7 +1,7 @@
 import FilterComponent from "../components/menu";
 import {FilterType, statisticData} from "../utils/common";
 import {replace, render, RenderPosition, remove} from "../utils/render";
-import {getCardsByFilter} from "../utils/filter";
+import {getAlreadyWatchedTotalTime, getCardsByFilter} from "../utils/filter";
 import StatisticComponent from "../components/statistic";
 import FilmContainerComponent from "../components/filmContainer";
 import SortComponent from "../components/sort";
@@ -17,8 +17,9 @@ export default class FilterController {
     this._onFilterChange = this._onFilterChange.bind(this);
     this._onDataChange = this._onDataChange.bind(this);
     this._moviesModel.setDataChangeHandler(this._onDataChange);
-    this._filmContainerComponent = new FilmContainerComponent();
     this._sortComponent = new SortComponent();
+    this._statisticComponent = new StatisticComponent();
+
 
   }
 
@@ -30,13 +31,17 @@ export default class FilterController {
         name: filterType,
         count: getCardsByFilter(allCards, filterType).length,
         checked: filterType === this._activeFilterType,
+        totalTime: getAlreadyWatchedTotalTime(allCards)
       };
     });
 
     console.log(filters);
+
+
     const oldComponent = this._filterComponent;
 
     this._filterComponent = new FilterComponent(filters);
+
     this._filterComponent.setFilterChangeHandler(this._onFilterChange);
 
     if (oldComponent) {
@@ -48,8 +53,8 @@ export default class FilterController {
     // Показывает статистику
     const showStat = (evt) => {
       evt.preventDefault();
-      remove(this._filmContainerComponent);
-      remove(this._sortComponent);
+      document.querySelector(`.films`).remove();
+      document.querySelector(`.sort`).remove();
       render(container, new StatisticComponent(filters), RenderPosition.BEFOREEND);
       this._filterComponent.removeShowStatClickHandler(showStat);
     };

@@ -3,6 +3,7 @@ import {FilterType} from "./common";
 export const getWatchlistCards = (cards) => cards.filter((card) => card.userDetails.watchlist);
 export const getAlreadyWatchedCards = (cards) => cards.filter((card) => card.userDetails.alreadyWatched);
 export const getFavoriteCards = (cards) => cards.filter((card) => card.userDetails.favorite);
+export const getAlreadyWatchedTotalTime = (cards) => getAlreadyWatchedCards(cards).reduce((sum, current) => sum + current.filmInfo.runtime, 0);
 
 export const getCardsByFilter = (cards, filterType) => {
 

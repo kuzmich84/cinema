@@ -18,7 +18,7 @@ const createStatisticTemplate = (filters) => {
     nameProfile = `Movie Buff`;
   }
 
-  const time = getTime(all.count).split(` `);
+  const time = getTime(all.totalTime).split(` `);
   return (`<section class="statistic">
     <p class="statistic__rank">
       Your rank

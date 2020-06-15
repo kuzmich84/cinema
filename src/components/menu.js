@@ -44,5 +44,4 @@ export default class SiteMenu extends AbstractComponent {
       handler(filterName);
     });
   }
-
 }
