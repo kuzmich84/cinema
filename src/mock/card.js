@@ -1,4 +1,5 @@
 import {createDescription, getRandomArrayItem, getRandomInRange, getRandomEventTime} from "../utils/common";
+import {generateComments} from "./comments";
 
 
 const FILMS_NAMES = [`Интердевочка`, `Берегись автомобиля`, `Друзья`, `Трансформеры`, `Такси`,
@@ -100,11 +101,12 @@ const getRandomArray = (arr, count) => {
   return Array.from(set);
 };
 
-
 function generateCard() {
+  const comments = generateComments(getRandomInRange(0, 5));
   return {
     id: ``,
-    comments: getRandomInRange(0, 1000),
+    commentt: comments,
+    comments: comments.length,
     filmInfo: {
       title: getRandomArrayItem(FILMS_NAMES),
       alternativeTitle: getRandomArrayItem(FILMS_NAMES),

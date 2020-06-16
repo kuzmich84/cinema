@@ -53,7 +53,6 @@ export default class MovieController {
     });
 
     this._cardComponent.setAlreadyWatchListButtonClickHandler(() => {
-
       this._onDataChange(this, card, Object.assign({}, card, {
         userDetails: {
           alreadyWatched: !card.userDetails.alreadyWatched,
@@ -115,5 +114,11 @@ export default class MovieController {
     if (this._mode !== Mode.DEFAULT) {
       this._showDetails();
     }
+  }
+
+  destroy() {
+    remove(this._detailsFilmComponent);
+    remove(this._cardComponent);
+    document.removeEventListener(`keydown`, this._onEscKeyDown);
   }
 }

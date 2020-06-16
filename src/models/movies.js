@@ -23,8 +23,21 @@ export default class Movies {
 
   setFilter(filterType) {
     this._activeFilterType = filterType;
-    this._filterChangeHandlers.forEach((handler) => handler());
     this._callHandlers(this._filterChangeHandlers);
+  }
+
+  removeCard(id) {
+    const index = this._cards.findIndex((it) => it.id === id);
+
+    if (index === -1) {
+      return false;
+    }
+
+    this._cards = [].concat(this._cards.slice(0, index), this._cards.slice(index + 1));
+
+    this._callHandlers(this._dataChangeHandlers);
+
+    return true;
   }
 
   setFilterChangeHandler(handler) {
@@ -48,22 +61,7 @@ export default class Movies {
     this._dataChangeHandlers.push(handler);
   }
 
-  removeCard(id) {
-    const index = this._cards.findIndex((it) => it.id === id);
-
-    if (index === -1) {
-      return false;
-    }
-
-    this._cards = [].concat(this._cards.slice(0, index), this._cards.slice(index + 1));
-
-    this._callHandlers(this._dataChangeHandlers);
-
-    return true;
-  }
-
   _callHandlers(handlers) {
     handlers.forEach((handler) => handler());
   }
-
 }

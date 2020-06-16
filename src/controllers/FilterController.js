@@ -1,9 +1,8 @@
 import FilterComponent from "../components/menu";
-import {FilterType, statisticData} from "../utils/common";
-import {replace, render, RenderPosition, remove} from "../utils/render";
+import {FilterType} from "../utils/common";
+import {replace, render, RenderPosition} from "../utils/render";
 import {getAlreadyWatchedTotalTime, getCardsByFilter} from "../utils/filter";
 import StatisticComponent from "../components/statistic";
-import FilmContainerComponent from "../components/filmContainer";
 import SortComponent from "../components/sort";
 
 export default class FilterController {
@@ -39,9 +38,7 @@ export default class FilterController {
 
 
     const oldComponent = this._filterComponent;
-
     this._filterComponent = new FilterComponent(filters);
-
     this._filterComponent.setFilterChangeHandler(this._onFilterChange);
 
     if (oldComponent) {
